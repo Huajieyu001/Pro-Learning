@@ -77,4 +77,14 @@ public interface SkuService {
     void modifySku();
 
     List<Sku> findTop(String id);
+
+    /**
+     * 总数量加载
+     */
+    Integer count();
+
+    /**
+     * 分页加载
+     */
+    List<Sku> list(int page, int size);
 }
