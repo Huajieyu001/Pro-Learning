@@ -16,10 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author http://www.itheima.com
@@ -440,6 +437,42 @@ public class SkuServiceImpl implements SkuService {
         Example example = new Example(Sku.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andIn("id", ids);
+        return skuMapper.selectByExample(example);
+    }
+
+    /**
+     * 总数量加载
+     */
+    @Override
+    public Integer count() {
+        Example example = new Example(Sku.class);
+        Example.Criteria criteria = example.createCriteria();
+        //秒杀剩余商品数量>0
+        criteria.andGreaterThan("seckillNum",0);
+        //状态为参与秒杀，1:普通商品，2:参与秒杀
+        criteria.andEqualTo("status","2");
+        //秒杀结束时间>=当前时间
+        criteria.andGreaterThanOrEqualTo("seckillEnd",new Date());
+        return skuMapper.selectCountByExample(example);
+    }
+
+    /**
+     * 分页加载
+     */
+    @Override
+    public List<Sku> list(int page, int size) {
+        //分页
+        PageHelper.startPage(page,size);
+
+        //条件构建
+        Example example = new Example(Sku.class);
+        Example.Criteria criteria = example.createCriteria();
+        //秒杀剩余商品数量>0
+        criteria.andGreaterThan("seckillNum",0);
+        //状态为参与秒杀，1:普通商品，2:参与秒杀
+        criteria.andEqualTo("status","2");
+        //秒杀结束时间>=当前时间
+        criteria.andGreaterThanOrEqualTo("seckillEnd",new Date());
         return skuMapper.selectByExample(example);
     }
 }

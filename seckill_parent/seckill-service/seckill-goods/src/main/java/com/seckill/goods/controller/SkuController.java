@@ -175,6 +175,24 @@ public class SkuController {
         List<Sku> skus = skuService.findTop(id);
         return new Result<>(true, StatusCode.OK, "查询成功", skus);
     }
+
+    /**
+     * 分页查询-查询总数量
+     */
+    @GetMapping(value = "/count")
+    public Integer count() {
+        return skuService.count();
+    }
+
+    /**
+     * Sku分页条件加载
+     */
+    @GetMapping(value = "/list/{page}/{size}" )
+    public List<Sku> list(@PathVariable  int page, @PathVariable  int size){
+        //调用SkuService实现分页条件查询Sku
+        List<Sku> skus = skuService.list(page, size);
+        return skus;
+    }
 }
 
 
