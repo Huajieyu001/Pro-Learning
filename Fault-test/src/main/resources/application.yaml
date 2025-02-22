@@ -1,0 +1,12 @@
+
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3305/dbtest11
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: qq331173500
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*.xml
+server:
+  port: 8081
